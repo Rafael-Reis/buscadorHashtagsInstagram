@@ -1,0 +1,91 @@
+<div id="filters">
+  <div id="logo" class="mb-1">
+      <img alt="Instagram" class="s4Iyt" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png">
+  </div>
+
+  <div class="mb-2">
+    <h1><span style="color: rgba(255, 0, 179, 0.8)">Buscar</span> #hashtag</h1>
+
+    <form>
+      <input class="input-control" type="text" [formControl]="tagName" />
+      <p>
+        <label style="margin-right: 10px;">
+          <input type="radio" [formControl]="tipo" value="top"/> Top Posts
+        </label>
+
+        <label>
+          <input type="radio" [formControl]="tipo" value="all"/> Todos
+        </label>
+      </p>
+      <button class="btn-search" type="button"  (click)="buscar()">Buscar</button>
+    </form>
+  </div>
+
+  <div class="mb-1">
+    <h4 class="mb-1">Status</h4>
+    <p>Total de Slides: {{ total > 0 ? total : 'nenhum' }}</p>
+    <p *ngIf="total > 0">Slide Ativo: {{ itemActive + 1}}</p>
+    <p>Ultima Verificação: {{ ultimaVeficacao || 'nenhum' }}</p>
+    <p *ngIf="verificacao">
+      Nova Verificação:
+      <span *ngIf="contador !== 0; else verifi">{{ contador }}s</span>
+      <ng-template #verifi>
+       <small style="color: green">carregando...</small>
+      </ng-template>
+    </p>
+    <p *ngIf="verificacao">
+      <button class="btn-parar" type="button" (click)="pararVerificao()">Parar Verificação</button>
+    </p>
+  </div>
+
+  <div>
+    <h4 class="mb-1">Controles</h4>
+    <table>
+      <tr>
+        <td>
+          Duração (Seg):
+        </td>
+        <td>
+          <input style="width: 70px;" class="input-control" type="number" [formControl]="timeDuracao" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Verificar (Seg):
+        </td>
+        <td>
+          <input style="width: 70px;" class="input-control" type="number" [formControl]="timeVerificacao" />
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+</div>
+
+<div id="content">
+
+  <div *ngIf="total>0; else noItems" id="slider">
+
+
+      <div class="inner">
+        <div class="item" *ngFor="let item of listItems; let i = index"  [class.active]="i === itemActive">
+          <img [src]="item.node.thumbnail_src">
+        </div>
+      </div>
+
+      <button (click)="prev()" class="btn-directions btn-prev" type="button">
+        <i class="material-icons">chevron_left</i>
+      </button>
+      <button (click)="next()" class="btn-directions btn-next" type="button">
+        <i class="material-icons">chevron_right</i>
+      </button>
+
+  </div>
+
+  <ng-template #noItems>
+    <h1 class="text-center">Sem publicações</h1>
+  </ng-template>
+
+
+</div>
