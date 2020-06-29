@@ -23,8 +23,8 @@
 
   <div class="mb-1">
     <h4 class="mb-1">Status</h4>
-    <p>Total de Slides: {{ total > 0 ? total : 'nenhum' }}</p>
-    <p *ngIf="total > 0">Slide Ativo: {{ itemActive + 1}}</p>
+    <p>Total de Slides: {{ totalItems > 0 ? totalItems : 'nenhum' }}</p>
+    <p *ngIf="totalItems > 0">Slide Ativo: {{ itemActive + 1}}</p>
     <p>Ultima Verificação: {{ ultimaVeficacao || 'nenhum' }}</p>
     <p *ngIf="verificacao">
       Nova Verificação:
@@ -34,7 +34,7 @@
       </ng-template>
     </p>
     <p *ngIf="verificacao">
-      <button class="btn-parar" type="button" (click)="pararVerificao()">Parar Verificação</button>
+      <button class="btn-parar" type="button" (click)="stopVerificacao()">Parar Verificação</button>
     </p>
   </div>
 
@@ -65,12 +65,35 @@
 
 <div id="content">
 
-  <div *ngIf="total>0; else noItems" id="slider">
+  <div *ngIf="totalItems>0; else noItems" id="slider">
 
 
       <div class="inner">
         <div class="item" *ngFor="let item of listItems; let i = index"  [class.active]="i === itemActive">
-          <img [src]="item.node.thumbnail_src">
+
+          <div *ngIf="item?.node?.is_video; else image">
+
+            <video
+              #videos
+              [id]="item.id"
+              [poster]="item?.node?.thumbnail_src"
+              [src]="item?.node?.video_url"
+              type="video/mp4"
+              controls
+              playsinline
+              muted>
+
+              Video não suportado pelo navegador !!!
+
+            </video>
+
+
+          </div>
+
+          <ng-template #image>
+            <img [src]="item?.node?.thumbnail_src">
+          </ng-template>
+
         </div>
       </div>
 

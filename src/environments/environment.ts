@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiInstagram: 'https://www.instagram.com/explore/tags'
+  apiInstagramTag: 'https://www.instagram.com/explore/tags',
+  apiInstagramVideo: 'https://www.instagram.com/p'
 };
 
 /*
